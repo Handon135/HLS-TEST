@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>hls.js Video Player</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Container for video */
+  .video-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  /* Video Styles */
+  video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  /* Mobile responsive styles */
+  @media (max-width: 768px) {
+    .video-container {
+      width: 95%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Video Player Container -->
+<div class="video-container">
+  <video controls autoplay id="video-player"></video>
+</div>
+
+<script>
+  var video = document.getElementById('video-player');
+  var videoSrc = 'http://119.202.33.234:8080/live/stream.m3u8';
+
+  // First check for native browser HLS support
+  if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+  }
+  // If no native HLS support, check if hls.js is supported
+  else if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+  }
+</script>
+
+</body>
+</html>
